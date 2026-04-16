@@ -9,6 +9,7 @@ A complete, enterprise-grade Airport Management System built with React, Node.js
 ### Prerequisites
 - Node.js v18+
 - MongoDB running locally on port 27017
+- Git (for cloning and pushing)
 
 ### 1. Start MongoDB
 Make sure MongoDB is running:
@@ -23,6 +24,10 @@ npm install
 npm run seed      # Seeds demo data + all user accounts
 npm run dev       # Starts on http://localhost:5000
 ```
+
+> On Windows PowerShell, if you get `npm.ps1 cannot be loaded`, use:
+> - `npm.cmd install`
+> - `npm.cmd run dev`
 
 ### 2a. Enable email sending (optional)
 By default, emails are skipped in development unless SMTP credentials are configured.
@@ -39,6 +44,33 @@ npm run dev       # Starts on http://localhost:5173
 ```
 
 Open http://localhost:5173
+
+---
+
+## ✅ Default Test Flow
+
+After running the seed command, verify quickly with:
+
+1. Login as `passenger@ams.com / Admin@123`
+2. Search flights (`/flights/search`)
+3. Book a flight
+4. Open My Bookings (`/passenger/bookings`)
+5. Login as `airlinemanager@ams.com / Admin@123`
+6. Check flight scheduling access
+
+---
+
+## 🧰 Useful Scripts
+
+### Server
+- `npm run dev` — start backend in development mode
+- `npm run seed` — reset and seed database with demo data
+- `npm start` — run backend in normal mode
+
+### Client
+- `npm run dev` — start Vite development server
+- `npm run build` — create production build
+- `npm run preview` — preview production build
 
 ---
 
@@ -153,3 +185,22 @@ GET    /api/reports/dashboard
 GET    /api/reports/revenue
 GET    /api/reports/audit
 ```
+
+---
+
+## 🛠️ Troubleshooting
+
+### Backend starts but crashes on MongoDB connection
+- Ensure MongoDB service is running.
+- If `localhost` fails on Windows, use:
+  - `MONGO_URI=mongodb://127.0.0.1:27017/airport_management`
+
+### No data visible after login
+- Run:
+  - `cd server`
+  - `npm run seed`
+
+### Email not sending
+- Configure SMTP fields in `server/.env`:
+  - `SMTP_USER`, `SMTP_PASS`, `FROM_EMAIL`
+  - and either `SMTP_HOST`/`SMTP_PORT` or `SMTP_SERVICE`
