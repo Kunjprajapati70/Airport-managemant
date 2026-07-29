@@ -204,3 +204,28 @@ GET    /api/reports/audit
 - Configure SMTP fields in `server/.env`:
   - `SMTP_USER`, `SMTP_PASS`, `FROM_EMAIL`
   - and either `SMTP_HOST`/`SMTP_PORT` or `SMTP_SERVICE`
+
+---
+
+## 👥 Contributors
+
+| Contributor | Role |
+|------------|------|
+| **Kunj Prajapati** | Full-stack Development |
+| **Sumit Prajapati** | Database & UI/UX |
+
+### Responsibilities
+
+#### Kunj Prajapati
+- Developed the frontend using React and Vite
+- Built backend APIs with Node.js and Express.js
+- Implemented authentication and authorization
+- Integrated frontend with backend services
+- Developed flight booking, check-in, baggage, and dashboard modules
+- Managed GitHub repository and project integration
+
+#### Sumit Prajapati
+- Designed the MongoDB database schema
+- Created and optimized database models
+- Worked on UI/UX design and user interface improvements
+- Assisted with responsive layouts and user experience enhancements
