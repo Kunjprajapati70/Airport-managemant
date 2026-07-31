@@ -225,7 +225,7 @@ GET    /api/reports/audit
 - Managed GitHub repository and project integration
 
 #### Sumit Prajapati
-- Designed the MongoDB database schema
+- Designed the MongoDB database schema & manage database
 - Created and optimized database models
 - Worked on UI/UX design and user interface improvements
 - Assisted with responsive layouts and user experience enhancements
