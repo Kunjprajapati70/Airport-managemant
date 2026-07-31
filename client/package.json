@@ -8,6 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
+    "start": "npm --prefix server start",
+    "client": "npm --prefix client start",
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.9.1",
