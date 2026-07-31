@@ -32,6 +32,9 @@ const { initSocket } = require('./socket');
 const app    = express();
 const server = http.createServer(app);
 
+// Trust Render's proxy (required for correct IP in rate limiting)
+app.set('trust proxy', 1);
+
 // ── Socket.IO (must be attached to the HTTP server, not the Express app) ──────
 initSocket(server);
 
@@ -82,8 +85,10 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // ── HTTP request logging ──────────────────────────────────────────────────────
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
+} else {
+  app.use(morgan('combined'));
 }
 
 // ── Static file serving (uploaded avatars, documents) ────────────────────────

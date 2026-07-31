@@ -8,14 +8,14 @@ A complete, enterprise-grade Airport Management System built with React, Node.js
 
 ### Prerequisites
 - Node.js v18+
-- MongoDB running locally on port 27017
-- Git (for cloning and pushing)
+- A [MongoDB Atlas](https://www.mongodb.com/atlas) account (free tier works fine)
 
-### 1. Start MongoDB
-Make sure MongoDB is running:
-```bash
-mongod
-```
+### 1. Configure MongoDB Atlas
+1. Create a free cluster at https://cloud.mongodb.com
+2. Under **Database Access**, create a user with read/write permissions
+3. Under **Network Access**, add `0.0.0.0/0` for dev
+4. Click **Connect → Drivers**, copy the connection string
+5. Paste it into `server/.env` as `MONGO_URI`
 
 ### 2. Setup & Run Backend
 ```bash
@@ -225,11 +225,93 @@ GET    /api/reports/audit
 - Managed GitHub repository and project integration
 
 #### Sumit Prajapati
-<<<<<<< HEAD
 - Designed the MongoDB database schema & manage database
-=======
-- Designed the MongoDB database schema
->>>>>>> be6f9248c0daf5a9601925ae346e63151ef9961b
 - Created and optimized database models
 - Worked on UI/UX design and user interface improvements
 - Assisted with responsive layouts and user experience enhancements
+
+---
+
+## 🚀 Deploy on Render
+
+This project includes a `render.yaml` for one-click deployment. Here's the full manual guide:
+
+### Step 1 — Deploy the Backend (Web Service)
+
+1. Go to [render.com](https://render.com) → **New → Web Service**
+2. Connect your GitHub repo
+3. Settings:
+   - **Root Directory:** `server`
+   - **Build Command:** `npm install`
+   - **Start Command:** `npm start`
+   - **Node version:** 18+
+4. Add these **Environment Variables** in the Render dashboard:
+
+| Key | Value |
+|-----|-------|
+| `NODE_ENV` | `production` |
+| `MONGO_URI` | your Atlas connection string |
+| `JWT_SECRET` | a long random secret |
+| `JWT_EXPIRE` | `7d` |
+| `CLIENT_URL` | your frontend Render URL (added after step 2) |
+| `FROM_EMAIL` | `noreply@aeromanage.com` |
+| `FROM_NAME` | `AeroManage` |
+
+5. Click **Deploy**. Note your backend URL: `https://aeromanage-api.onrender.com`
+
+---
+
+### Step 2 — Deploy the Frontend (Static Site)
+
+1. Go to Render → **New → Static Site**
+2. Connect the same GitHub repo
+3. Settings:
+   - **Root Directory:** `client`
+   - **Build Command:** `npm install && npm run build`
+   - **Publish Directory:** `dist`
+4. Add this **Environment Variable**:
+
+| Key | Value |
+|-----|-------|
+| `VITE_API_URL` | `https://aeromanage-api.onrender.com` ← your backend URL |
+
+5. Under **Redirects/Rewrites**, add:
+   - **Source:** `/*`
+   - **Destination:** `/index.html`
+   - **Type:** Rewrite
+   *(This enables React SPA routing — without it, direct URL visits return 404)*
+
+6. Click **Deploy**. Note your frontend URL: `https://aeromanage.onrender.com`
+
+---
+
+### Step 3 — Link frontend URL to backend
+
+Go back to your **backend service** on Render → Environment → update:
+
+```
+CLIENT_URL = https://aeromanage.onrender.com
+```
+
+Then click **Save** — Render will redeploy automatically.
+
+---
+
+### Step 4 — Seed the database
+
+After both services are running, open a terminal and seed your Atlas database:
+
+```bash
+cd server
+npm run seed
+```
+
+Or set `MONGO_URI` in your local `.env` and run it locally — the seed writes directly to Atlas.
+
+---
+
+### Notes
+
+- Free tier Render services **spin down after inactivity** — first request after idle takes ~30s
+- `uploads/` folder (avatars) is **ephemeral** on Render free tier — files reset on redeploy. For persistent uploads, use Cloudinary or S3.
+- Socket.IO works on Render — no extra config needed

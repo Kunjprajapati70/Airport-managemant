@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "AeroManage Airport Management System — REST API",
   "main": "src/app.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
-    "start":  "node src/app.js",
+    "start":  "NODE_ENV=production node src/app.js",
     "dev":    "nodemon src/app.js",
     "seed":   "node src/seeds/run.js"
   },
