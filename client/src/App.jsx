@@ -61,7 +61,6 @@ function App() {
     boot();
   }, [dispatch, token]);
 
-  // Initialize Socket.IO after user is loaded
   useEffect(() => {
     if (user?._id) {
       const socket = initSocket(user._id, user.role);
@@ -91,6 +90,7 @@ function App() {
         }}
       />
       <Routes>
+        {/* Public */}
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -103,6 +103,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
 
+        {/* Admin */}
         <Route element={<ProtectedRoute allowedRoles={['super_admin', 'airport_admin']} />}>
           <Route path="/admin" element={<DashboardLayout role="admin" />}>
             <Route index element={<Navigate to="dashboard" replace />} />
@@ -120,6 +121,7 @@ function App() {
           </Route>
         </Route>
 
+        {/* Passenger */}
         <Route element={<ProtectedRoute allowedRoles={['passenger']} />}>
           <Route path="/passenger" element={<DashboardLayout role="passenger" />}>
             <Route index element={<Navigate to="dashboard" replace />} />
@@ -138,6 +140,7 @@ function App() {
           </Route>
         </Route>
 
+        {/* Staff */}
         <Route element={<ProtectedRoute allowedRoles={['checkin_staff', 'boarding_staff', 'baggage_staff', 'security_officer', 'maintenance_staff', 'airline_manager', 'super_admin']} />}>
           <Route path="/staff" element={<DashboardLayout role="staff" />}>
             <Route index element={<Navigate to="checkin" replace />} />

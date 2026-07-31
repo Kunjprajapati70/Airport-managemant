@@ -164,5 +164,11 @@ export const getDashboardPath = (role) => {
   if (!role) return '/';
   if (['super_admin', 'airport_admin'].includes(role)) return '/admin/dashboard';
   if (role === 'passenger') return '/passenger/dashboard';
-  return '/staff/checkin';
+  if (role === 'airline_manager') return '/staff/checkin';
+  if (role === 'checkin_staff') return '/staff/checkin';
+  if (role === 'boarding_staff') return '/staff/boarding';
+  if (role === 'baggage_staff') return '/staff/baggage';
+  if (role === 'security_officer') return '/staff/security';
+  if (role === 'maintenance_staff') return '/staff/maintenance';
+  return '/';
 };

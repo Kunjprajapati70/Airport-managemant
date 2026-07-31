@@ -1,11 +1,6 @@
 /**
  * Sidebar
  * Role-aware navigation sidebar.
- *
- * - Desktop: always visible (fixed, 256px wide)
- * - Mobile: slides in from left, backdrop overlay closes it
- * - Super admin sees both admin + operations sections
- * - Active link highlighted via NavLink isActive
  */
 
 import React from 'react';
@@ -19,7 +14,6 @@ import {
   FiActivity,
 } from 'react-icons/fi';
 
-// ── Navigation config per portal ─────────────────────────────────────────────
 const NAV = {
   admin: [
     { label: 'Dashboard',      to: '/admin/dashboard',      icon: FiHome },
@@ -45,11 +39,11 @@ const NAV = {
     { label: 'Profile',         to: '/passenger/profile',       icon: FiUser },
   ],
   staff: [
-    { label: 'Check-in Console', to: '/staff/checkin',     icon: FiCheckSquare },
-    { label: 'Boarding Console', to: '/staff/boarding',    icon: FiSend },
-    { label: 'Security Desk',    to: '/staff/security',    icon: FiShield },
-    { label: 'Baggage Desk',     to: '/staff/baggage',     icon: FiPackage },
-    { label: 'Maintenance',      to: '/staff/maintenance', icon: FiTool },
+    { label: 'Check-in Console', to: '/staff/checkin',      icon: FiCheckSquare, roles: ['checkin_staff', 'super_admin', 'airline_manager'] },
+    { label: 'Boarding Console', to: '/staff/boarding',     icon: FiSend,        roles: ['boarding_staff', 'super_admin', 'airline_manager'] },
+    { label: 'Security Desk',    to: '/staff/security',     icon: FiShield,      roles: ['security_officer', 'super_admin'] },
+    { label: 'Baggage Desk',     to: '/staff/baggage',      icon: FiPackage,     roles: ['baggage_staff', 'super_admin'] },
+    { label: 'Maintenance',      to: '/staff/maintenance',  icon: FiTool,        roles: ['maintenance_staff', 'super_admin'] },
     { label: 'Notifications',    to: '/staff/notifications', icon: FiBell },
   ],
 };
@@ -64,7 +58,9 @@ export default function Sidebar({ role, userRole, isOpen, onClose }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const links = NAV[role] ?? [];
+  const links = (NAV[role] ?? []).filter(
+    (l) => !l.roles || (userRole && l.roles.includes(userRole))
+  );
 
   const handleLogout = () => {
     dispatch(logout());
@@ -94,7 +90,7 @@ export default function Sidebar({ role, userRole, isOpen, onClose }) {
         `}
         aria-label="Sidebar navigation"
       >
-        {/* ── Logo / Brand ─────────────────────────────────────────────── */}
+        {/* Logo */}
         <div className="flex items-center justify-between h-16 px-4 border-b border-dark-700/80 flex-shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center shadow-glow-sm">
@@ -105,33 +101,30 @@ export default function Sidebar({ role, userRole, isOpen, onClose }) {
               <p className="text-dark-500 text-2xs mt-0.5">{PORTAL_LABELS[role]}</p>
             </div>
           </div>
-          {/* Close button — mobile only */}
           <button
             onClick={onClose}
-            className="lg:hidden btn-icon btn-ghost text-dark-400"
+            className="lg:hidden btn-icon text-dark-400"
             aria-label="Close sidebar"
           >
             <FiX size={16} />
           </button>
         </div>
 
-        {/* ── Navigation links ─────────────────────────────────────────── */}
+        {/* Nav links */}
         <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-0.5" aria-label="Main navigation">
           {links.map(({ label, to, icon: Icon }) => (
             <NavLink
               key={to}
               to={to}
               onClick={() => { if (window.innerWidth < 1024) onClose(); }}
-              className={({ isActive }) =>
-                `sidebar-link ${isActive ? 'active' : ''}`
-              }
+              className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
             >
               <Icon size={15} className="flex-shrink-0" />
               <span className="truncate">{label}</span>
             </NavLink>
           ))}
 
-          {/* Super admin gets operations section too */}
+          {/* Super admin also sees staff operations */}
           {userRole === 'super_admin' && role === 'admin' && (
             <>
               <div className="pt-4 pb-1.5 px-3">
@@ -144,9 +137,7 @@ export default function Sidebar({ role, userRole, isOpen, onClose }) {
                   key={to}
                   to={to}
                   onClick={() => { if (window.innerWidth < 1024) onClose(); }}
-                  className={({ isActive }) =>
-                    `sidebar-link ${isActive ? 'active' : ''}`
-                  }
+                  className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
                 >
                   <Icon size={15} className="flex-shrink-0" />
                   <span className="truncate">{label}</span>
@@ -156,7 +147,7 @@ export default function Sidebar({ role, userRole, isOpen, onClose }) {
           )}
         </nav>
 
-        {/* ── Logout ───────────────────────────────────────────────────── */}
+        {/* Logout */}
         <div className="px-3 py-4 border-t border-dark-700/80 flex-shrink-0">
           <button
             onClick={handleLogout}

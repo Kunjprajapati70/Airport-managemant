@@ -2,381 +2,246 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Google Fonts ─────────────────────────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @layer base {
-  * {
-    @apply box-border;
-  }
+  * { @apply box-border; }
 
   body {
     @apply m-0 min-h-screen bg-dark-950 text-dark-100 font-sans antialiased;
   }
 
-  #root {
-    @apply min-h-screen;
-  }
+  #root { @apply min-h-screen; }
 
-  /* Scrollbar */
   ::-webkit-scrollbar       { @apply w-1.5 h-1.5; }
   ::-webkit-scrollbar-track { @apply bg-dark-900; }
   ::-webkit-scrollbar-thumb { @apply bg-dark-600 rounded-full; }
   ::-webkit-scrollbar-thumb:hover { @apply bg-dark-500; }
 
-  /* Selection */
   ::selection { @apply bg-primary-500/30 text-primary-100; }
 }
 
 @layer components {
 
-  /* ── Form ─────────────────────────────────────────────────────────────── */
+  /* ── Form ── */
   .label {
     @apply block text-xs font-semibold tracking-wide text-dark-300 mb-1.5 uppercase;
   }
-
   .input {
     @apply w-full rounded-xl border border-dark-700 bg-dark-900 px-3 py-2.5 text-sm text-dark-100 outline-none transition;
     @apply placeholder:text-dark-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20;
   }
-
   .input-error {
     @apply border-red-500/70 focus:border-red-500 focus:ring-red-500/20;
   }
+  .field-error { @apply mt-1 text-xs text-red-400; }
+  select.input  { @apply cursor-pointer; }
+  textarea.input { @apply resize-y min-h-[80px]; }
 
-  .field-error {
-    @apply mt-1 text-xs text-red-400;
-  }
-
-  select.input {
-    @apply cursor-pointer;
-  }
-
-  textarea.input {
-    @apply resize-y min-h-[80px];
-  }
-
-  /* ── Buttons ──────────────────────────────────────────────────────────── */
+  /* ── Buttons ── */
   .btn-primary {
     @apply inline-flex items-center gap-2 rounded-xl bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition;
     @apply hover:bg-primary-500 active:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-60;
   }
-
   .btn-secondary {
     @apply inline-flex items-center gap-2 rounded-xl border border-dark-700 bg-dark-900 px-4 py-2 text-sm font-semibold text-dark-200 transition;
     @apply hover:border-dark-600 hover:bg-dark-800 disabled:cursor-not-allowed disabled:opacity-60;
   }
-
   .btn-danger {
     @apply inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white transition;
     @apply hover:bg-red-500 active:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60;
   }
-
   .btn-ghost {
     @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-dark-300 transition;
     @apply hover:bg-dark-800 hover:text-dark-100 disabled:cursor-not-allowed disabled:opacity-60;
   }
-
   .btn-success {
     @apply inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition;
     @apply hover:bg-emerald-500 active:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-60;
   }
-
-  .btn-sm {
-    @apply px-3 py-1.5 text-xs rounded-lg;
-  }
-
-  .btn-lg {
-    @apply px-6 py-3 text-base rounded-2xl;
-  }
-
+  .btn-sm  { @apply px-3 py-1.5 text-xs rounded-lg; }
+  .btn-lg  { @apply px-6 py-3 text-base rounded-2xl; }
   .btn-icon {
     @apply inline-flex items-center justify-center rounded-xl p-2 text-dark-400 transition;
     @apply hover:bg-dark-800 hover:text-dark-100 disabled:cursor-not-allowed disabled:opacity-60;
   }
-
   .btn-icon-sm {
     @apply inline-flex items-center justify-center rounded-lg p-1.5 text-dark-400 transition;
     @apply hover:bg-dark-800 hover:text-dark-100;
   }
 
-  /* ── Cards ────────────────────────────────────────────────────────────── */
-  .card {
-    @apply rounded-2xl border border-dark-800 bg-dark-900 shadow-card;
-  }
-
-  .card-hover {
+  /* ── Cards ── */
+  .card          { @apply rounded-2xl border border-dark-800 bg-dark-900 shadow-card; }
+  .card-hover    {
     @apply card transition-all duration-200 cursor-pointer;
     @apply hover:border-dark-700 hover:shadow-card-lg hover:-translate-y-0.5;
   }
+  .card-section  { @apply p-5 border-b border-dark-800 last:border-b-0; }
+  .stat-card     { @apply card flex items-center gap-4 p-5; }
 
-  .card-section {
-    @apply p-5 border-b border-dark-800 last:border-b-0;
-  }
-
-  .stat-card {
-    @apply card flex items-center gap-4 p-5;
-  }
-
-  /* ── Sidebar ──────────────────────────────────────────────────────────── */
+  /* ── Sidebar ── */
   .sidebar-link {
     @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-dark-400 transition-all duration-150;
     @apply hover:bg-dark-800 hover:text-dark-100;
   }
-
   .sidebar-link.active {
     @apply bg-primary-500/10 text-primary-400 border border-primary-500/20;
   }
-
   .sidebar-section-label {
     @apply text-2xs font-bold uppercase tracking-widest text-dark-600 px-3 mb-1 mt-4;
   }
 
-  /* ── Table ────────────────────────────────────────────────────────────── */
-  .table-container {
-    @apply w-full overflow-x-auto rounded-2xl border border-dark-800;
-  }
+  /* ── Table ── */
+  .table-container { @apply w-full overflow-x-auto rounded-2xl border border-dark-800; }
+  .table           { @apply w-full text-sm; }
+  .table thead     { @apply bg-dark-800/60; }
+  .table th        { @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-dark-400 whitespace-nowrap; }
+  .table td        { @apply px-4 py-3.5 text-dark-200 border-t border-dark-800/60 whitespace-nowrap; }
+  .table tbody tr  { @apply transition-colors duration-100 hover:bg-dark-800/40; }
 
-  .table {
-    @apply w-full text-sm;
-  }
-
-  .table thead {
-    @apply bg-dark-800/60;
-  }
-
-  .table th {
-    @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-dark-400 whitespace-nowrap;
-  }
-
-  .table td {
-    @apply px-4 py-3.5 text-dark-200 border-t border-dark-800/60 whitespace-nowrap;
-  }
-
-  .table tbody tr {
-    @apply transition-colors duration-100 hover:bg-dark-800/40;
-  }
-
-  /* ── Modal ────────────────────────────────────────────────────────────── */
+  /* ── Modal ── */
   .modal-overlay {
     @apply fixed inset-0 z-50 flex items-center justify-center p-4;
     @apply bg-dark-950/80 backdrop-blur-sm;
   }
-
   .modal-box {
     @apply w-full rounded-2xl border border-dark-700 bg-dark-900 shadow-card-lg;
     @apply max-h-[90vh] flex flex-col overflow-hidden;
   }
+  .modal-body   { @apply flex-1 overflow-y-auto px-6 py-5; }
+  .modal-footer { @apply flex items-center justify-end gap-3 px-6 py-4 border-t border-dark-700; }
 
-  .modal-body {
-    @apply flex-1 overflow-y-auto px-6 py-5;
-  }
+  /* ── Badges ── */
+  .badge { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border; }
 
-  .modal-footer {
-    @apply flex items-center justify-end gap-3 px-6 py-4 border-t border-dark-700;
-  }
+  /* Flight */
+  .status-scheduled { @apply badge bg-blue-500/10    text-blue-400    border-blue-500/20; }
+  .status-boarding  { @apply badge bg-amber-500/10   text-amber-400   border-amber-500/20; }
+  .status-departed  { @apply badge bg-indigo-500/10  text-indigo-400  border-indigo-500/20; }
+  .status-in_flight { @apply badge bg-purple-500/10  text-purple-400  border-purple-500/20; }
+  .status-arrived   { @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
+  .status-delayed   { @apply badge bg-orange-500/10  text-orange-400  border-orange-500/20; }
+  .status-cancelled { @apply badge bg-red-500/10     text-red-400     border-red-500/20; }
+  .status-diverted  { @apply badge bg-pink-500/10    text-pink-400    border-pink-500/20; }
 
-  /* ── Badges / Status ──────────────────────────────────────────────────── */
-  .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border;
-  }
+  /* Booking */
+  .status-confirmed { @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
+  .status-pending   { @apply badge bg-amber-500/10   text-amber-400   border-amber-500/20; }
+  .status-completed { @apply badge bg-blue-500/10    text-blue-400    border-blue-500/20; }
+  .status-no_show   { @apply badge bg-red-500/10     text-red-400     border-red-500/20; }
 
-  /* ── Flight statuses ── */
-  .status-scheduled  { @apply badge bg-blue-500/10    text-blue-400    border-blue-500/20; }
-  .status-boarding   { @apply badge bg-amber-500/10   text-amber-400   border-amber-500/20; }
-  .status-departed   { @apply badge bg-indigo-500/10  text-indigo-400  border-indigo-500/20; }
-  .status-in_flight  { @apply badge bg-purple-500/10  text-purple-400  border-purple-500/20; }
-  .status-arrived    { @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
-  .status-delayed    { @apply badge bg-orange-500/10  text-orange-400  border-orange-500/20; }
-  .status-cancelled  { @apply badge bg-red-500/10     text-red-400     border-red-500/20; }
-  .status-diverted   { @apply badge bg-pink-500/10    text-pink-400    border-pink-500/20; }
+  /* Payment */
+  .status-paid               { @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
+  .status-refunded           { @apply badge bg-cyan-500/10    text-cyan-400    border-cyan-500/20; }
+  .status-partially_refunded { @apply badge bg-teal-500/10    text-teal-400    border-teal-500/20; }
+  .status-failed             { @apply badge bg-red-500/10     text-red-400     border-red-500/20; }
 
-  /* ── Booking statuses ── */
-  .status-confirmed  { @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
-  .status-pending    { @apply badge bg-amber-500/10   text-amber-400   border-amber-500/20; }
-  .status-completed  { @apply badge bg-blue-500/10    text-blue-400    border-blue-500/20; }
-  .status-no_show    { @apply badge bg-red-500/10     text-red-400     border-red-500/20; }
-
-  /* ── Payment statuses ── */
-  .status-paid                { @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
-  .status-refunded            { @apply badge bg-cyan-500/10    text-cyan-400    border-cyan-500/20; }
-  .status-partially_refunded  { @apply badge bg-teal-500/10    text-teal-400    border-teal-500/20; }
-  .status-failed              { @apply badge bg-red-500/10     text-red-400     border-red-500/20; }
-
-  /* ── Check-in statuses ── */
+  /* Check-in */
   .status-not_checked_in { @apply badge bg-dark-700/60    text-dark-400    border-dark-600/40; }
   .status-checked_in     { @apply badge bg-blue-500/10    text-blue-400    border-blue-500/20; }
   .status-boarded        { @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
 
-  /* ── Baggage statuses ── */
-  .status-registered        { @apply badge bg-blue-500/10    text-blue-400    border-blue-500/20; }
-  .status-security_scanned  { @apply badge bg-purple-500/10  text-purple-400  border-purple-500/20; }
-  .status-loaded            { @apply badge bg-amber-500/10   text-amber-400   border-amber-500/20; }
-  .status-in_transit        { @apply badge bg-cyan-500/10    text-cyan-400    border-cyan-500/20; }
-  .status-claimed           { @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
-  .status-missing           { @apply badge bg-orange-500/10  text-orange-400  border-orange-500/20; }
-  .status-lost              { @apply badge bg-red-500/10     text-red-400     border-red-500/20; }
+  /* Baggage */
+  .status-registered       { @apply badge bg-blue-500/10    text-blue-400    border-blue-500/20; }
+  .status-security_scanned { @apply badge bg-purple-500/10  text-purple-400  border-purple-500/20; }
+  .status-loaded           { @apply badge bg-amber-500/10   text-amber-400   border-amber-500/20; }
+  .status-in_transit       { @apply badge bg-cyan-500/10    text-cyan-400    border-cyan-500/20; }
+  .status-claimed          { @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
+  .status-missing          { @apply badge bg-orange-500/10  text-orange-400  border-orange-500/20; }
+  .status-lost             { @apply badge bg-red-500/10     text-red-400     border-red-500/20; }
 
-  /* ── Security statuses ── */
+  /* Security */
   .status-cleared  { @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
   .status-flagged  { @apply badge bg-orange-500/10  text-orange-400  border-orange-500/20; }
   .status-rejected { @apply badge bg-red-500/10     text-red-400     border-red-500/20; }
 
-  /* ── Maintenance statuses ── */
-  .status-in_progress { @apply badge bg-blue-500/10    text-blue-400    border-blue-500/20; }
-  .status-overdue     { @apply badge bg-red-500/10     text-red-400     border-red-500/20; }
+  /* Maintenance */
+  .status-in_progress { @apply badge bg-blue-500/10 text-blue-400 border-blue-500/20; }
+  .status-overdue     { @apply badge bg-red-500/10  text-red-400  border-red-500/20; }
 
-  /* ── Aircraft statuses ── */
-  .status-available    { @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
-  .status-assigned     { @apply badge bg-blue-500/10    text-blue-400    border-blue-500/20; }
-  .status-maintenance  { @apply badge bg-orange-500/10  text-orange-400  border-orange-500/20; }
-  .status-grounded     { @apply badge bg-red-500/10     text-red-400     border-red-500/20; }
-  .status-retired      { @apply badge bg-dark-700/60    text-dark-400    border-dark-600/40; }
+  /* Aircraft */
+  .status-available   { @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
+  .status-assigned    { @apply badge bg-blue-500/10    text-blue-400    border-blue-500/20; }
+  .status-maintenance { @apply badge bg-orange-500/10  text-orange-400  border-orange-500/20; }
+  .status-grounded    { @apply badge bg-red-500/10     text-red-400     border-red-500/20; }
+  .status-retired     { @apply badge bg-dark-700/60    text-dark-400    border-dark-600/40; }
 
-  /* ── Generic fallback ── */
-  .status-unknown    { @apply badge bg-dark-700/60 text-dark-400 border-dark-600/40; }
-  .status-active     { @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
-  .status-inactive   { @apply badge bg-dark-700/60    text-dark-400    border-dark-600/40; }
+  /* Generic */
+  .status-active   { @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
+  .status-inactive { @apply badge bg-dark-700/60    text-dark-400    border-dark-600/40; }
+  .status-unknown  { @apply badge bg-dark-700/60    text-dark-400    border-dark-600/40; }
 
-  /* ── Page Header ──────────────────────────────────────────────────────── */
-  .page-header {
-    @apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6;
-  }
+  /* ── Layout helpers ── */
+  .page-header   { @apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6; }
+  .page-title    { @apply text-xl font-bold text-dark-100; }
+  .page-subtitle { @apply text-sm text-dark-500 mt-0.5; }
+  .section-title { @apply text-base font-semibold text-dark-100 mb-4; }
+  .divider       { @apply border-t border-dark-800 my-4; }
+  .stats-grid    { @apply grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6; }
+  .stats-grid-3  { @apply grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6; }
+  .filter-bar    { @apply flex flex-wrap items-center gap-3 p-4 bg-dark-900 rounded-2xl border border-dark-800 mb-4; }
 
-  .page-title {
-    @apply text-xl font-bold text-dark-100;
-  }
+  /* ── Empty state ── */
+  .empty-state      { @apply flex flex-col items-center justify-center py-16 text-center; }
+  .empty-state-icon { @apply w-16 h-16 rounded-2xl bg-dark-800 flex items-center justify-center mb-4 text-dark-500; }
 
-  .page-subtitle {
-    @apply text-sm text-dark-500 mt-0.5;
-  }
-
-  /* ── Section ──────────────────────────────────────────────────────────── */
-  .section-title {
-    @apply text-base font-semibold text-dark-100 mb-4;
-  }
-
-  /* ── Divider ──────────────────────────────────────────────────────────── */
-  .divider {
-    @apply border-t border-dark-800 my-4;
-  }
-
-  /* ── Empty state ──────────────────────────────────────────────────────── */
-  .empty-state {
-    @apply flex flex-col items-center justify-center py-16 text-center;
-  }
-
-  .empty-state-icon {
-    @apply w-16 h-16 rounded-2xl bg-dark-800 flex items-center justify-center mb-4 text-dark-500;
-  }
-
-  /* ── Alert / info boxes ───────────────────────────────────────────────── */
+  /* ── Alerts ── */
   .alert-info    { @apply flex items-start gap-3 p-4 rounded-xl bg-blue-500/10    border border-blue-500/20    text-blue-300    text-sm; }
   .alert-success { @apply flex items-start gap-3 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-sm; }
   .alert-warning { @apply flex items-start gap-3 p-4 rounded-xl bg-amber-500/10   border border-amber-500/20   text-amber-300   text-sm; }
   .alert-danger  { @apply flex items-start gap-3 p-4 rounded-xl bg-red-500/10     border border-red-500/20     text-red-300     text-sm; }
 
-  /* ── Detail row (label + value pair) ─────────────────────────────────── */
-  .detail-row {
-    @apply flex items-start justify-between gap-4 py-3 border-b border-dark-800 last:border-b-0;
-  }
+  /* ── Detail row ── */
+  .detail-row   { @apply flex items-start justify-between gap-4 py-3 border-b border-dark-800 last:border-b-0; }
+  .detail-label { @apply text-xs font-medium text-dark-500 uppercase tracking-wide flex-shrink-0; }
+  .detail-value { @apply text-sm text-dark-100 text-right; }
 
-  .detail-label {
-    @apply text-xs font-medium text-dark-500 uppercase tracking-wide flex-shrink-0;
-  }
+  /* ── Timeline ── */
+  .timeline-item { @apply flex gap-4 relative; }
+  .timeline-line { @apply absolute left-4 top-8 bottom-0 w-px bg-dark-800; }
+  .timeline-dot  { @apply w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 z-10; }
 
-  .detail-value {
-    @apply text-sm text-dark-100 text-right;
-  }
-
-  /* ── Timeline ─────────────────────────────────────────────────────────── */
-  .timeline-item {
-    @apply flex gap-4 relative;
-  }
-
-  .timeline-line {
-    @apply absolute left-4 top-8 bottom-0 w-px bg-dark-800;
-  }
-
-  .timeline-dot {
-    @apply w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 z-10;
-  }
-
-  /* ── Dropdown ─────────────────────────────────────────────────────────── */
-  .dropdown {
-    @apply absolute z-30 rounded-xl border border-dark-700 bg-dark-900 shadow-card-lg py-1 min-w-[160px];
-  }
-
+  /* ── Dropdown ── */
+  .dropdown      { @apply absolute z-30 rounded-xl border border-dark-700 bg-dark-900 shadow-card-lg py-1 min-w-[160px]; }
   .dropdown-item {
     @apply flex items-center gap-2.5 px-3 py-2 text-sm text-dark-300 transition-colors;
     @apply hover:bg-dark-800 hover:text-dark-100 w-full text-left;
   }
 
-  /* ── Loading spinner ──────────────────────────────────────────────────── */
-  .spinner {
-    @apply inline-block w-5 h-5 border-2 border-dark-600 border-t-primary-500 rounded-full animate-spin;
-  }
+  /* ── Spinners ── */
+  .spinner    { @apply inline-block w-5 h-5 border-2 border-dark-600 border-t-primary-500 rounded-full animate-spin; }
+  .spinner-sm { @apply inline-block w-4 h-4 border-2 border-dark-600 border-t-primary-500 rounded-full animate-spin; }
+  .spinner-lg { @apply inline-block w-8 h-8 border-2 border-dark-700 border-t-primary-500 rounded-full animate-spin; }
 
-  .spinner-sm {
-    @apply inline-block w-4 h-4 border-2 border-dark-600 border-t-primary-500 rounded-full animate-spin;
-  }
-
-  .spinner-lg {
-    @apply inline-block w-8 h-8 border-2 border-dark-700 border-t-primary-500 rounded-full animate-spin;
-  }
-
-  /* ── Pagination ───────────────────────────────────────────────────────── */
+  /* ── Pagination ── */
   .page-btn {
     @apply inline-flex items-center justify-center w-8 h-8 rounded-lg text-sm font-medium transition-colors;
     @apply text-dark-400 hover:bg-dark-800 hover:text-dark-100 disabled:opacity-40 disabled:cursor-not-allowed;
   }
+  .page-btn.active { @apply bg-primary-600 text-white hover:bg-primary-500; }
 
-  .page-btn.active {
-    @apply bg-primary-600 text-white hover:bg-primary-500;
+  /* ── Seats ── */
+  .seat          { @apply w-8 h-8 rounded-lg flex items-center justify-center text-xs font-semibold cursor-pointer transition-all duration-150 border; }
+  .seat-available { @apply seat bg-dark-800 border-dark-700 text-dark-400 hover:bg-primary-600 hover:border-primary-500 hover:text-white; }
+  .seat-selected  { @apply seat bg-primary-600 border-primary-500 text-white; }
+  .seat-booked    { @apply seat bg-dark-900 border-dark-800 text-dark-700 cursor-not-allowed; }
+  .seat-first     { @apply seat bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20; }
+  .seat-business  { @apply seat bg-purple-500/10 border-purple-500/30 text-purple-400 hover:bg-purple-500/20; }
+
+  /* ── Boarding pass ── */
+  .boarding-pass {
+    @apply rounded-2xl bg-gradient-to-br from-primary-900 to-dark-900 border border-primary-700/30 overflow-hidden shadow-card-lg;
   }
+  .boarding-pass-dashed { @apply border-t-2 border-dashed border-dark-700 my-4; }
 
-  /* ── Checkbox / Radio ─────────────────────────────────────────────────── */
-  .checkbox {
-    @apply w-4 h-4 rounded border border-dark-600 bg-dark-800 text-primary-600 cursor-pointer;
-    @apply focus:ring-2 focus:ring-primary-500/30 focus:ring-offset-0 focus:ring-offset-dark-900;
-  }
-
-  /* ── Tooltip ──────────────────────────────────────────────────────────── */
+  /* ── Tooltip ── */
   .tooltip {
     @apply absolute z-50 px-2.5 py-1.5 text-xs font-medium text-dark-100 bg-dark-700 rounded-lg shadow-card pointer-events-none whitespace-nowrap;
   }
 
-  /* ── Seat map ─────────────────────────────────────────────────────────── */
-  .seat {
-    @apply w-8 h-8 rounded-lg flex items-center justify-center text-xs font-semibold cursor-pointer transition-all duration-150 border;
-  }
-
-  .seat-available  { @apply seat bg-dark-800 border-dark-700 text-dark-400 hover:bg-primary-600 hover:border-primary-500 hover:text-white; }
-  .seat-selected   { @apply seat bg-primary-600 border-primary-500 text-white; }
-  .seat-booked     { @apply seat bg-dark-900 border-dark-800 text-dark-700 cursor-not-allowed; }
-  .seat-first      { @apply seat bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20; }
-  .seat-business   { @apply seat bg-purple-500/10 border-purple-500/30 text-purple-400 hover:bg-purple-500/20; }
-
-  /* ── Boarding pass ────────────────────────────────────────────────────── */
-  .boarding-pass {
-    @apply rounded-2xl bg-gradient-to-br from-primary-900 to-dark-900 border border-primary-700/30 overflow-hidden shadow-card-lg;
-  }
-
-  .boarding-pass-dashed {
-    @apply border-t-2 border-dashed border-dark-700 my-4;
-  }
-
-  /* ── Filter / Search bar ──────────────────────────────────────────────── */
-  .filter-bar {
-    @apply flex flex-wrap items-center gap-3 p-4 bg-dark-900 rounded-2xl border border-dark-800 mb-4;
-  }
-
-  /* ── Stat grid ────────────────────────────────────────────────────────── */
-  .stats-grid {
-    @apply grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6;
-  }
-
-  .stats-grid-3 {
-    @apply grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6;
+  /* ── Checkbox ── */
+  .checkbox {
+    @apply w-4 h-4 rounded border border-dark-600 bg-dark-800 text-primary-600 cursor-pointer;
+    @apply focus:ring-2 focus:ring-primary-500/30 focus:ring-offset-0;
   }
 }

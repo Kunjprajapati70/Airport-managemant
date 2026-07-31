@@ -18,14 +18,13 @@ const connectDB = async () => {
   try {
     const conn = await mongoose.connect(uri, {
       ssl:                      true,
-      serverSelectionTimeoutMS: 10000, // 10s to find a server before failing
-      socketTimeoutMS:          45000, // 45s for slow Atlas queries
-      maxPoolSize:              10,    // max concurrent connections
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS:          45000,
+      maxPoolSize:              10,
     });
 
     console.log(`✅ MongoDB Atlas connected: ${conn.connection.host} / ${conn.connection.name}`);
 
-    // Graceful shutdown — close connection when process terminates
     process.on('SIGINT', async () => {
       await mongoose.connection.close();
       console.log('🔌 MongoDB connection closed (SIGINT)');

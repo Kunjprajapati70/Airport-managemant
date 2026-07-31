@@ -1,6 +1,6 @@
 /**
  * TopBar.jsx
- * Dashboard top navigation bar with notification bell dropdown.
+ * Dashboard top navigation bar with notification bell and user dropdown.
  */
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -12,7 +12,6 @@ import { markRead, markAllRead } from '../../store/slices/notificationSlice';
 import { ROLE_LABELS, getInitials, timeAgo } from '../../utils/helpers';
 import api from '../../services/api';
 
-// Notification type icons
 const TYPE_ICONS = {
   booking_confirmed: '✅', booking_cancelled: '❌',
   payment_success: '💳',   payment_failed: '⚠️',
@@ -30,12 +29,11 @@ export default function TopBar({ onMenuClick }) {
   const { user }  = useSelector((s) => s.auth);
   const { items, unreadCount } = useSelector((s) => s.notifications);
 
-  const [notifOpen,   setNotifOpen]   = useState(false);
-  const [dropdownOpen,setDropdownOpen]= useState(false);
-  const notifRef   = useRef(null);
-  const dropdownRef= useRef(null);
+  const [notifOpen,    setNotifOpen]    = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const notifRef    = useRef(null);
+  const dropdownRef = useRef(null);
 
-  // Close on outside click
   useEffect(() => {
     const handler = (e) => {
       if (notifRef.current    && !notifRef.current.contains(e.target))    setNotifOpen(false);
@@ -48,17 +46,13 @@ export default function TopBar({ onMenuClick }) {
   const handleLogout = () => { dispatch(logout()); navigate('/'); };
 
   const handleMarkRead = async (id) => {
-    try {
-      await api.patch(`/notifications/${id}/read`);
-      dispatch(markRead(id));
-    } catch { /* silent */ }
+    try { await api.patch(`/notifications/${id}/read`); dispatch(markRead(id)); }
+    catch { /* silent */ }
   };
 
   const handleMarkAllRead = async () => {
-    try {
-      await api.patch('/notifications/read-all');
-      dispatch(markAllRead());
-    } catch { /* silent */ }
+    try { await api.patch('/notifications/read-all'); dispatch(markAllRead()); }
+    catch { /* silent */ }
   };
 
   const notifPath = user?.role === 'passenger'
@@ -67,23 +61,33 @@ export default function TopBar({ onMenuClick }) {
     ? '/admin/notifications'
     : '/staff/notifications';
 
+  const profilePath = user?.role === 'passenger'
+    ? '/passenger/profile'
+    : ['super_admin', 'airport_admin'].includes(user?.role)
+    ? '/admin/dashboard'
+    : '/staff/notifications';
+
   const recentNotifs = items.slice(0, 5);
 
   return (
     <header className="h-16 bg-dark-900 border-b border-dark-700/80 flex items-center justify-between px-4 lg:px-6 flex-shrink-0 z-20">
       {/* Hamburger */}
-      <button onClick={onMenuClick} className="btn-icon btn-ghost text-dark-400 hover:text-dark-100" aria-label="Toggle sidebar">
+      <button
+        onClick={onMenuClick}
+        className="btn-icon text-dark-400 hover:text-dark-100"
+        aria-label="Toggle sidebar"
+      >
         <FiMenu size={20} />
       </button>
 
       {/* Right actions */}
       <div className="flex items-center gap-2">
 
-        {/* ── Notification bell ──────────────────────────────────────────── */}
+        {/* Notification bell */}
         <div className="relative" ref={notifRef}>
           <button
             onClick={() => { setNotifOpen((v) => !v); setDropdownOpen(false); }}
-            className="relative btn-icon btn-ghost text-dark-400 hover:text-dark-100"
+            className="relative btn-icon text-dark-400 hover:text-dark-100"
             aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
           >
             <FiBell size={18} />
@@ -94,10 +98,8 @@ export default function TopBar({ onMenuClick }) {
             )}
           </button>
 
-          {/* Notification dropdown */}
           {notifOpen && (
             <div className="absolute right-0 top-full mt-2 w-80 bg-dark-800 border border-dark-700 rounded-2xl shadow-card-lg z-50 overflow-hidden animate-slide-down">
-              {/* Header */}
               <div className="flex items-center justify-between px-4 py-3 border-b border-dark-700">
                 <p className="text-sm font-semibold text-dark-100">
                   Notifications {unreadCount > 0 && <span className="text-primary-400">({unreadCount})</span>}
@@ -109,7 +111,6 @@ export default function TopBar({ onMenuClick }) {
                 )}
               </div>
 
-              {/* List */}
               <div className="max-h-72 overflow-y-auto">
                 {recentNotifs.length === 0 ? (
                   <div className="text-center py-8">
@@ -144,7 +145,6 @@ export default function TopBar({ onMenuClick }) {
                 )}
               </div>
 
-              {/* Footer */}
               <div className="px-4 py-2.5 border-t border-dark-700">
                 <Link
                   to={notifPath}
@@ -158,10 +158,9 @@ export default function TopBar({ onMenuClick }) {
           )}
         </div>
 
-        {/* Divider */}
         <div className="w-px h-6 bg-dark-700 mx-1" />
 
-        {/* ── User dropdown ──────────────────────────────────────────────── */}
+        {/* User dropdown */}
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => { setDropdownOpen((v) => !v); setNotifOpen(false); }}
@@ -191,21 +190,29 @@ export default function TopBar({ onMenuClick }) {
               </div>
               <div className="py-1">
                 {user?.role === 'passenger' && (
-                  <Link to="/passenger/profile" onClick={() => setDropdownOpen(false)}
-                    className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-dark-300 hover:text-dark-100 hover:bg-dark-700/60 transition-colors">
+                  <Link
+                    to={profilePath}
+                    onClick={() => setDropdownOpen(false)}
+                    className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-dark-300 hover:text-dark-100 hover:bg-dark-700/60 transition-colors"
+                  >
                     <FiUser size={14} /> My Profile
                   </Link>
                 )}
-                <Link to={notifPath} onClick={() => setDropdownOpen(false)}
-                  className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-dark-300 hover:text-dark-100 hover:bg-dark-700/60 transition-colors">
+                <Link
+                  to={notifPath}
+                  onClick={() => setDropdownOpen(false)}
+                  className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-dark-300 hover:text-dark-100 hover:bg-dark-700/60 transition-colors"
+                >
                   <FiBell size={14} />
                   Notifications
                   {unreadCount > 0 && (
                     <span className="ml-auto bg-red-500 text-white text-2xs px-1.5 py-0.5 rounded-full">{unreadCount}</span>
                   )}
                 </Link>
-                <button onClick={handleLogout}
-                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors">
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
+                >
                   <FiLogOut size={14} /> Sign Out
                 </button>
               </div>

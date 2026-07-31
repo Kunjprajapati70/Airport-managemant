@@ -1,15 +1,10 @@
 /**
  * authValidators.js
  * express-validator rule arrays for every auth route.
- * Imported directly into the route file and placed before the validate middleware.
- *
- * Pattern:
- *   router.post('/register', registerRules, validate, ctrl.register);
  */
 
 const { body } = require('express-validator');
 
-// ── Register ──────────────────────────────────────────────────────────────────
 exports.registerRules = [
   body('firstName')
     .trim()
@@ -39,7 +34,6 @@ exports.registerRules = [
     .matches(/^\+?[0-9]{7,15}$/).withMessage('Please provide a valid phone number'),
 ];
 
-// ── Login ─────────────────────────────────────────────────────────────────────
 exports.loginRules = [
   body('email')
     .trim()
@@ -51,7 +45,6 @@ exports.loginRules = [
     .notEmpty().withMessage('Password is required'),
 ];
 
-// ── Change password ───────────────────────────────────────────────────────────
 exports.changePasswordRules = [
   body('currentPassword')
     .notEmpty().withMessage('Current password is required'),
@@ -62,7 +55,6 @@ exports.changePasswordRules = [
     .matches(/\d/).withMessage('New password must contain at least one number'),
 ];
 
-// ── Forgot password ───────────────────────────────────────────────────────────
 exports.forgotPasswordRules = [
   body('email')
     .trim()
@@ -71,7 +63,6 @@ exports.forgotPasswordRules = [
     .normalizeEmail(),
 ];
 
-// ── Reset password ────────────────────────────────────────────────────────────
 exports.resetPasswordRules = [
   body('password')
     .notEmpty().withMessage('Password is required')

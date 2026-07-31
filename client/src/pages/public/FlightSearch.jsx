@@ -90,10 +90,10 @@ export default function FlightSearch() {
   const handleBook = (flight) => {
     if (!isAuthenticated) {
       toast.error('Please sign in to book a flight');
-      navigate('/login', { state: { from: { pathname: `/passenger/book/${flight._id}` } } });
+      navigate('/login', { state: { from: { pathname: `/passenger/book-flight/${flight._id}` } } });
       return;
     }
-    navigate(`/passenger/book/${flight._id}?class=${form.seatClass}&passengers=${form.passengers}`);
+    navigate(`/passenger/book-flight/${flight._id}?class=${form.seatClass}&passengers=${form.passengers}`);
   };
 
   const getPriceForClass = (flight) => {
